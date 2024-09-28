@@ -73,7 +73,7 @@ body {
     top: 100%;
     left: 0;
     z-index: 1000;
-    width: 100%; /* Make dropdown full width of the filter item */
+    width: 100%;
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #fff;
@@ -215,7 +215,7 @@ body {
   }
 
   .filter-toggle-btn {
-    display: none; /* Sakriveno po defaultu */
+    display: none;
     padding: 8px 15px;
     background-color: #fff;
     border: 1px solid #2a4757fe;
@@ -244,14 +244,13 @@ body {
     transition: transform 0.3s ease;
   }
 
-  /* Media query za mobilni prikaz */
   @media (max-width: 768px) {
     .filter-toggle-btn {
-      display: flex; /* Prikazano u mobilnom prikazu */
+      display: flex;
     }
 
     .filter-container {
-      display: none; /* Sakriveni filteri u mobilnom prikazu */
+      display: none;
     }
   }
 
@@ -276,6 +275,7 @@ body {
     padding: 20px;
     height: 100%;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .close-drawer {
@@ -329,6 +329,58 @@ body {
   .mobile-clear-all-filters:hover {
     background-color: #fff;
     color: #2a4757fe;
+  }
+  .mobile-filter-item {
+    margin-bottom: 15px;
+  }
+
+  .mobile-filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+
+  .mobile-filter-options {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-filter-options li {
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+  }
+
+  .mobile-filter-options li:last-child {
+    border-bottom: none;
+  }
+
+  .mobile-filter-options li.selected {
+    background-color: #e0e0e0;
+    font-weight: bold;
+  }
+
+  .mobile-filter-options.open {
+    display: block;
+  }
+
+  .mobile-filter-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .mobile-filter-header.open .mobile-filter-arrow {
+    transform: rotate(180deg);
+  }
+
+  body.drawer-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -558,56 +610,6 @@ textarea {
   h3 {
     page-break-after: avoid;
   }
-}
-
-.mobile-filter-item {
-  margin-bottom: 15px;
-}
-
-.mobile-filter-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #f0f0f0;
-  cursor: pointer;
-}
-
-.mobile-filter-options {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.mobile-filter-options li {
-  padding: 10px;
-  border-bottom: 1px solid #e0e0e0;
-  cursor: pointer;
-}
-
-.mobile-filter-options li:last-child {
-  border-bottom: none;
-}
-
-.mobile-filter-options li.selected {
-  background-color: #e0e0e0;
-  font-weight: bold;
-}
-
-.mobile-filter-options {
-  display: none;
-}
-
-.mobile-filter-options.open {
-  display: block;
-}
-
-.mobile-filter-arrow {
-  transition: transform 0.3s ease;
-}
-
-.mobile-filter-header.open .mobile-filter-arrow {
-  transform: rotate(180deg);
 }
 
 body.drawer-open {

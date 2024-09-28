@@ -22,7 +22,6 @@
   </head>
 
   <body>
-    <!-- Add your site or application content here -->
     <div class="filter-section">
       <button id="filter-toggle-btn" class="filter-toggle-btn">
         <svg
@@ -48,8 +47,8 @@
         </svg>
         Filters
       </button>
+
       <div class="filter-container">
-        <!-- Color filter dropdown -->
         <div class="filter-item" id="item-color">
           <button class="filter-button">
             Color <span class="arrow">▼</span>
@@ -74,7 +73,6 @@
           </div>
         </div>
 
-        <!-- Price filter dropdown -->
         <div class="filter-item" id="item-price">
           <button class="filter-button">
             Price <span class="arrow">▼</span>
@@ -89,7 +87,6 @@
           </div>
         </div>
 
-        <!-- Material filter dropdown -->
         <div class="filter-item" id="item-material">
           <button class="filter-button">
             Material <span class="arrow">▼</span>
@@ -104,7 +101,6 @@
           </div>
         </div>
 
-        <!-- Decoration filter dropdown -->
         <div class="filter-item" id="item-decoration">
           <button class="filter-button">
             Decoration <span class="arrow">▼</span>
@@ -121,19 +117,15 @@
       </div>
     </div>
 
-    <!-- Container for displaying filtered products -->
     <div id="product-container"></div>
 
     <div id="filter-drawer" class="filter-drawer">
       <div class="drawer-content">
         <button id="close-drawer" class="close-drawer">×</button>
         <h2>Filters</h2>
-        <div class="mobile-filter-container">
-          <!-- Filteri će biti kopirani ovde pomoću JavaScript-a -->
-        </div>
+        <div class="mobile-filter-container"></div>
       </div>
     </div>
-
     <script src="js/app.js"></script>
   </body>
 </html>

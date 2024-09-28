@@ -70,7 +70,7 @@ function updateFilter(filterType, value) {
   selectedFilters[filterType] = value;
 
   updateDesktopFilter(filterType, value);
-  updateMobileFilters(); // Dodajte ovu liniju umesto updateMobileFilter(filterType, value);
+  updateMobileFilters();
 
   applyFilters();
   updateFilterCounts();
@@ -144,7 +144,6 @@ function updateMobileFilters() {
     }
   });
 
-  // Prikaz ili sakrivanje "Clear All" dugmeta
   const mobileClearAllButton = document.querySelector(
     ".mobile-clear-all-filters"
   );
@@ -165,10 +164,10 @@ function clearFilter(filterType) {
   const filterButton = filterItem.querySelector(".filter-button");
   filterButton.innerHTML = `${
     filterType.charAt(0).toUpperCase() + filterType.slice(1)
-  } <span class="arrow">▼</span>`; // Reset button text
+  } <span class="arrow">▼</span>`;
 
   const clearButton = filterItem.querySelector(".clear-filter");
-  clearButton.style.display = "none"; // Hide clear button
+  clearButton.style.display = "none";
 
   applyFilters();
 }
@@ -260,22 +259,33 @@ function updateFilterCounts() {
 
 function toggleFilterDrawer() {
   const filterDrawer = document.getElementById("filter-drawer");
+  const body = document.body;
   if (filterDrawer) {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
     if (mediaQuery.matches) {
       filterDrawer.classList.toggle("open");
+      body.classList.toggle("drawer-open");
+      if (filterDrawer.classList.contains("open")) {
+        disableScroll();
+      } else {
+        enableScroll();
+      }
     } else {
       filterDrawer.classList.remove("open");
+      body.classList.remove("drawer-open");
+      enableScroll();
     }
   }
 }
 
 function closeFilterDrawer() {
   const filterDrawer = document.getElementById("filter-drawer");
+  const body = document.body;
   if (filterDrawer) {
     filterDrawer.classList.remove("open");
+    body.classList.remove("drawer-open");
+    enableScroll();
 
-    // Zatvaramo sve otvorene filtere unutar drawera
     const mobileFilterOptions = filterDrawer.querySelectorAll(
       ".mobile-filter-options"
     );
@@ -283,7 +293,6 @@ function closeFilterDrawer() {
       options.style.display = "none";
     });
 
-    // Resetujemo sve strelice
     const mobileFilterArrows = filterDrawer.querySelectorAll(
       ".mobile-filter-arrow"
     );
@@ -298,9 +307,8 @@ function initializeMobileFilters() {
   const mobileFilterContainer = document.querySelector(
     ".mobile-filter-container"
   );
-  mobileFilterContainer.innerHTML = ""; // Očisti postojeće filtere
+  mobileFilterContainer.innerHTML = "";
 
-  // Kopiramo filtere, ali menjamo strukturu za list view
   const filters = filterContainer.querySelectorAll(".filter-item");
   filters.forEach((filter) => {
     const filterType = filter.id.replace("item-", "");
@@ -308,12 +316,12 @@ function initializeMobileFilters() {
       .querySelector(".filter-button")
       .textContent.trim()
       .replace("▼", "")
-      .trim(); // Uklanjamo arrow iz naslova
+      .trim();
     const filterOptions = filter.querySelectorAll(".filter-dropdown li");
 
     const mobileFilterItem = document.createElement("div");
     mobileFilterItem.classList.add("mobile-filter-item");
-    mobileFilterItem.dataset.filterType = filterType; // Dodajemo tip filtera kao data atribut
+    mobileFilterItem.dataset.filterType = filterType;
     mobileFilterItem.innerHTML = `
       <div class="mobile-filter-header">
         <span>${filterTitle}</span>
@@ -335,13 +343,11 @@ function initializeMobileFilters() {
     mobileFilterContainer.appendChild(mobileFilterItem);
   });
 
-  // Dodajemo "Clear All" dugme na kraju
   const clearAllButton = document.createElement("button");
   clearAllButton.classList.add("mobile-clear-all-filters");
   clearAllButton.textContent = "Clear All Filters";
   mobileFilterContainer.appendChild(clearAllButton);
 
-  // Dodajemo event listenere za mobile filtere
   attachMobileFilterEventListeners();
 }
 
@@ -397,15 +403,12 @@ function setupMediaQueryListener() {
 
   function handleMediaQueryChange(e) {
     if (!e.matches) {
-      // Ako više nismo u mobilnom prikazu, zatvorimo drawer
       closeFilterDrawer();
+      enableScroll();
     }
   }
 
-  // Dodajemo listener za promjene
   mediaQuery.addListener(handleMediaQueryChange);
-
-  // Također provjerimo trenutno stanje
   handleMediaQueryChange(mediaQuery);
 }
 
@@ -420,6 +423,21 @@ function clearAllMobileFilters() {
     updateFilter(filterType, null);
   });
   closeFilterDrawer();
+}
+
+function disableScroll() {
+  const scrollY = window.scrollY;
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${scrollY}px`;
+  document.body.style.width = "100%";
+}
+
+function enableScroll() {
+  const scrollY = document.body.style.top;
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.width = "";
+  window.scrollTo(0, parseInt(scrollY || "0") * -1);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
